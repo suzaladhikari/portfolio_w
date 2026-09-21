@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building a Transformer From Scratch — Sujal Adhikari</title>
+  <meta name="description" content="A comparison of transformer variants implemented in zalGPT, including RoPE, RMSNorm, and SwiGLU, trained on TinyStories.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html#top" class="nav-name">SUJAL ADHIKARI</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html#skills">Skills</a></li>
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#blog">Blog</a></li>
+      </ul>
+    </nav>
+    <div class="nav-icons">
+      <a href="https://github.com/suzaladhikari" target="_blank" rel="noopener" aria-label="GitHub">
+        <span class="material-symbols-outlined">code</span>
+      </a>
+      <a href="https://linkedin.com/in/sujaladhikari3" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <span class="material-symbols-outlined">work</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="blog-hero">
+    <div class="wrap">
+      <div class="eyebrow">Blog · zalGPT</div>
+      <h1>Building a Transformer From Scratch</h1>
+      <p>What actually changes when I replace pieces of a small decoder-only transformer with components used in modern LLMs?</p>
+    </div>
+  </section>
+
+  <div class="divider"><div class="line"></div><div class="node"></div><div class="line"></div></div>
+
+  <article>
+    <div class="wrap">
+      <div class="article-meta">
+        <span>zalGPT</span>
+        <span>·</span>
+        <span>Transformers</span>
+        <span>·</span>
+        <span>PyTorch</span>
+      </div>
+
+      <h1 class="article-title">Building a Transformer From Scratch: What Actually Makes a Difference?</h1>
+
+      <p class="article-deck">
+        A comparison of the transformer variants I implemented while building zalGPT, looking at how architectural changes such as RoPE, RMSNorm, and SwiGLU affect training behavior on TinyStories.
+      </p>
+
+      <div class="tag-row">
+        <span class="tag">PyTorch</span>
+        <span class="tag">RoPE</span>
+        <span class="tag">RMSNorm</span>
+        <span class="tag">SwiGLU</span>
+        <span class="tag">TinyStories</span>
+      </div>
+
+      <div class="article-body">
+        <p>
+          While building zalGPT, I wanted to understand modern transformer components by implementing them directly rather than treating them as black boxes. I started with a small decoder-only transformer and then changed individual parts of the architecture to see what actually affected training.
+        </p>
+
+        <h2>The baseline</h2>
+        <p>
+          The baseline model uses token embeddings, causal multi-head self-attention, residual connections, normalization, a feed-forward network, and a final linear layer for next-token prediction. All versions are trained on TinyStories so that the architectural changes can be compared under the same type of data.
+        </p>
+
+        <h2>Adding RoPE</h2>
+        <p>
+          Rotary Positional Embeddings apply position-dependent rotations directly to the query and key vectors inside attention. Instead of learning a separate positional embedding table, positional information becomes part of the attention computation itself.
+        </p>
+
+        <h2>Replacing LayerNorm with RMSNorm</h2>
+        <p>
+          RMSNorm removes mean-centering and normalizes activations using their root-mean-square magnitude. It is a simpler normalization method that is widely used in modern language models, so I wanted to compare its training behavior directly with the baseline implementation.
+        </p>
+
+        <h2>Replacing the feed-forward network with SwiGLU</h2>
+        <p>
+          SwiGLU changes the standard feed-forward block by introducing a gated pathway using the SiLU activation. This gives the model a learned mechanism for controlling which transformed features are allowed through the feed-forward layer.
+        </p>
+
+        <div class="callout">
+          <p><strong>Experiment goal:</strong> keep the training setup as consistent as possible and compare the loss curves of the different transformer variants rather than relying only on architectural intuition.</p>
+        </div>
+
+        <h2>Comparing the training curves</h2>
+        <p>
+          The interesting part is that the loss curves can look almost identical when plotted on the same full-scale graph. Small differences become easier to inspect by zooming the y-axis or plotting the loss difference relative to a baseline model.
+        </p>
+
+        <h2>What I learned</h2>
+        <p>
+          Building each component manually made the differences between these architectures much clearer. RoPE changes how position enters attention, RMSNorm changes how hidden states are normalized, and SwiGLU changes the structure of the feed-forward network. Even when the final loss differences are small, implementing and testing each component makes it much easier to understand why modern LLM architectures are designed the way they are.
+        </p>
+
+        <a class="back-link" href="index.html#blog">
+          <span class="material-symbols-outlined">west</span>
+          Back to portfolio
+        </a>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="article-footer">
+  <div class="wrap">Sujal Adhikari — Caldwell University</div>
+</footer>
+
+</body>
+</html>
